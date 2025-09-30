@@ -1,0 +1,51 @@
+const int buttonPin = 2;
+const int redPin = 11;
+const int yellowPin = 12;
+const int greenPin = 13;
+
+bool trafficLightActive = false;
+unsigned long lastButtonPress = 0;
+
+void setup() {
+  pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(redPin, OUTPUT);
+  pinMode(yellowPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  
+  
+  digitalWrite(greenPin, HIGH);
+}
+
+void loop() {
+  int buttonState = digitalRead(buttonPin);
+  
+  if (buttonState == LOW && millis() - lastButtonPress > 500) {
+    
+    lastButtonPress = millis();
+    trafficLightActive = true;
+  }
+  
+  if (trafficLightActive) {
+    
+    runTrafficLightCycle();
+    trafficLightActive = false;
+  }
+}
+
+void runTrafficLightCycle() {
+  digitalWrite(greenPin, LOW);
+  delay(5000); 
+  
+  
+  digitalWrite(yellowPin, HIGH);
+  delay(2000);
+  digitalWrite(yellowPin, LOW);
+  
+  
+  digitalWrite(redPin, HIGH);
+  delay(5000);
+  digitalWrite(redPin, LOW);
+  
+  
+  digitalWrite(greenPin, HIGH);
+}
